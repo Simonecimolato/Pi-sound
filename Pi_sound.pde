@@ -3,6 +3,7 @@ import processing.sound.*;
 SinOsc oscillator;
 final float vol = 0.5;
 final int speed = 100;
+boolean Piano = false;   //change this to hear piano notes
 int digits = 0;
 String[] PiInput;
 int current;
@@ -41,14 +42,12 @@ void draw() {
           current -= 48;
           //println(current);
           
-          /*piano notes
-            piano();
-            piano = comment the following 2 lines and uncomment the previous line + change the variable to display in the show() function
-            */
-          
-          freq = int(map(current, 0, 9, 200, 900));
-          oscillator.freq(freq);                  //some digits last for more time.
-          
+          ///piano notes
+          if (Piano == true) piano();
+          else{
+            freq = int(map(current, 0, 9, 200, 900));
+            oscillator.freq(freq);                  //some digits last for more time.
+          }
           //infos 
           show();
           
@@ -80,10 +79,10 @@ void show(){
   background(128);
           text("Pi song!", width/2 - 50, height/2 - 150);
           text("Current digit: " + current, width/2 - 100, height/2 - 50);
-          text("Frequency: " + freq + "hz", width/2 - 100, height/2);
+          if (Piano == true) text("Frequency: " + freqNote + "hz", width/2 - 100, height/2);
+          else {text("Frequency: " + freq + "hz", width/2 - 100, height/2);}
           text("Digits played: " + digits, width/2 - 100, height/2 + 50);
           text("Click to play/pause", width/2 + 100, height/2 + 350);
           //noStroke();
           //ellipse(width/2, height/2 + 200, current*10, current*10);    //just for fun
 }
-
