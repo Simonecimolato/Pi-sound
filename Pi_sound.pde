@@ -1,24 +1,31 @@
 import processing.sound.*;
 
-SinOsc sine;
+SinOsc oscillator;
+final float vol = 0.5;
+final int speed = 100;
 int digits = 0;
 String[] PiInput;
 int current;
-int freq;
-final float vol = 0.5;
-int i;
-int j; 
 int lastTime;
-final int speed = 100;
+int i;
+int j;
+int freq;
+float freqNote;
+
+void piano(){
+  float note = int(map(current, 0, 9, 48, 58));  //it is from 48 to 58 because if current is 1 the frequency will be 440hz
+  freqNote = pow(2, (note - 49)/12) * 440;
+  oscillator.freq(freqNote); 
+}
 
 void setup() {
   size(720, 720);
   textSize(25);
-  println("Time required: ~" + 1000000/(1000/speed) + " seconds, (~" + 1000000/(1000/speed)/60 + " hrs)");
-  PiInput = loadStrings("../Pi_squares/data/pi 1M.txt");   //you can do this with any txt that is containig numbers.
-  sine = new SinOsc(this);
-  sine.play();
-  sine.amp(vol);
+  println("Time required: ~" + 1000000/(1000/speed) + " seconds (~" + 1000000/(1000/speed)/60 + " hrs)");
+  PiInput = loadStrings("../Pi_squares/data/pi 1M.txt");       //you can do this with any txt that is containig numbers.
+  oscillator = new SinOsc(this);
+  oscillator.play();
+  oscillator.amp(vol);
 }
 
 void draw() {
@@ -32,28 +39,24 @@ void draw() {
           //from char to int
           current = int(charsArray[j]);        
           current -= 48;
-  
           //println(current);
-          freq = int(map(current, 0, 9, 200, 900));
-          sine.freq(freq);        //some digits last for more time.
-  
-          background(100);
-          text("Pi song!", width/2 - 50, height/2 - 150);
-          text("Current digit: " + current, width/2 - 100, height/2 - 50);
-          text("Frequency: " + freq + "hz", width/2 - 100, height/2);
-          text("Digits played: " + digits, width/2 - 100, height/2 + 50);
-          text("Click to play/pause", width/2 + 100, height/2 + 350); 
-
           
-          //noStroke();
-          //ellipse(width/2, height/2 + 200, current*10, current*10);    //just for fun
+          /*piano notes
+            piano();
+            piano = comment the following 2 lines and uncomment the previous line + change the variable to display in the show() function
+            */
+          
+          freq = int(map(current, 0, 9, 200, 900));
+          oscillator.freq(freq);                  //some digits last for more time.
+          
+          //infos 
+          show();
           
           digits++;
           j++;
         }
         else {
           j = 0;
-          //println("Digits played: " + digits);
           i++;
         }
     }
@@ -61,13 +64,26 @@ void draw() {
   }
 }
 
+
 void mousePressed() {
   if (looping)   {
-    sine.amp(0);
+    oscillator.amp(0);
     noLoop();
   }
   else {           
-    sine.amp(vol);
+    oscillator.amp(vol);
     loop();
   }
 }
+
+void show(){
+  background(128);
+          text("Pi song!", width/2 - 50, height/2 - 150);
+          text("Current digit: " + current, width/2 - 100, height/2 - 50);
+          text("Frequency: " + freq + "hz", width/2 - 100, height/2);
+          text("Digits played: " + digits, width/2 - 100, height/2 + 50);
+          text("Click to play/pause", width/2 + 100, height/2 + 350);
+          //noStroke();
+          //ellipse(width/2, height/2 + 200, current*10, current*10);    //just for fun
+}
+
