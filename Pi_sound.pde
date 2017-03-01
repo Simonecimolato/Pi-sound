@@ -23,7 +23,7 @@ void piano(){
 void setup() {
   size(720, 720);
   textSize(height/29);  //putting this in draw() will cause a delay during the first draw loop
-  constant = loadStrings("sqrt 2 1M.txt");       //you can do this with any txt that is containig numbers.
+  constant = loadStrings("pi 1M.txt");       //you can do this with any txt that is containig numbers.
   surface.setResizable(true);
   if (speed != 0) {
     for (int k = 0; k < constant.length; k++) {        
