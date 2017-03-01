@@ -23,7 +23,7 @@ void piano(){
 void setup() {
   size(720, 720);
   textSize(height/29);  //putting this in draw() will cause a delay during the first draw loop
-  constant = loadStrings("pi 1M.txt");       //you can do this with any txt that is containig numbers.
+  constant = loadStrings("sqrt 2 1M.txt");       //you can do this with any txt that is containig numbers.
   surface.setResizable(true);
   if (speed != 0) {
     for (int k = 0; k < constant.length; k++) {        
@@ -60,7 +60,7 @@ void draw() {
             oscillator.freq(freq);     //some digits last for more time.  
           }
           //infos 
-          show();
+          info();
           
           digits++;
           j++;
@@ -85,11 +85,12 @@ void mousePressed() {
     loop();
   }
 }
+
 void keyPressed() {
   Piano = !Piano;
 }
 
-void show(){
+void info(){
   background(0);
   //apparently doing *0.5 is faster than dividing by 2
   image(anotherPi, width*0.5 - 75 , height*0.5 - 180, 50, 50);
@@ -98,11 +99,14 @@ void show(){
   if (Piano == true) {
     text("Frequency: " + freqNote + "hz", width*0.5 - 100, height*0.5);  
     text("Piano mode", 10, 25);
-}
-  else {text("Frequency: " + freq + "hz", width*0.5 - 100, height*0.5);}
+  }
+  else {
+    text("Frequency: " + freq + "hz", width*0.5 - 100, height*0.5);
+    text("Normal mode", 10, 25);
+  }
   text("Digits played: " + digits, width*0.5 - 100, height*0.5 + 50);
   text("Mouse: play/pause", width - 230, height - 10);
-  text("Keyboard: piano/normal", 10, height - 10);
+  text("Keyboard: switch mode", 10, height - 10);
   //funWithRects();
 }
 
