@@ -12,6 +12,7 @@ int lastTime;
 int i;
 int j;
 int freq;
+int backup;
 float freqNote;
 
 void piano(){
@@ -37,11 +38,13 @@ void setup() {
   oscillator = new SinOsc(this);
   oscillator.play();
   oscillator.amp(vol);
-  digits = 0;
+  backup = digits;
+  digits = 1;
 }
 
 void draw() {
   if (millis() - lastTime > speed) {
+    if (digits <= backup) {
     if (i < constant.length) {
         char[] charsArray = new char[constant[i].length()];
         
@@ -71,6 +74,8 @@ void draw() {
         }
     }
     lastTime = millis();
+    }
+    else exit();
   }
 }
 
